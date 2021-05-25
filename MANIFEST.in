@@ -1,0 +1,3 @@
+include LICENSE README.rst *.txt *.rst docs/source/*
+recursive-include docs/source *.*
+recursive-include docs/source/_static *.*
