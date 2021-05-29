@@ -17,34 +17,36 @@ export VENV		?= $(VENV_ROOT)
 ######################################################################
 
 # default target when running `make` without arguments
-all: $(MAIN_CLI_PATH)
+all: | $(MAIN_CLI_PATH)
 
 # creates virtualenv
-venv: $(VENV)
+venv: | $(VENV)
 
 # updates pip and setuptools to their latest version
-develop: $(VENV)/bin/python $(VENV)/bin/pip
+develop: | $(VENV)/bin/python $(VENV)/bin/pip
 
 # installs the requirements and the package dependencies
-setup: $(MAIN_CLI_PATH)
+setup: | $(MAIN_CLI_PATH)
 
 # Convenience target to ensure that the venv exists and all
 # requirements are installed
-dependencies: develop setup
+dependencies:
+	@rm -f $(MAIN_CLI_PATH) # remove MAIN_CLI_PATH to trigger pip install
+	$(MAKE) develop setup
 
 # Run all tests, separately
-tests: unit functional  # runs all tests
+tests: unit functional |  $(MAIN_CLI_PATH) # runs all tests
 
 # -> unit tests
-unit: | $(VENV)/bin/nosetests  # runs only unit tests
+unit: | $(VENV)/bin/nosetests $(MAIN_CLI_PATH)  # runs only unit tests
 	@$(VENV)/bin/nosetests --cover-erase tests/unit
 
 # -> functional tests
-functional:| $(VENV)/bin/nosetests  # runs functional tests
+functional:| $(VENV)/bin/nosetests  $(MAIN_CLI_PATH)  # runs functional tests
 	@$(VENV)/bin/nosetests tests/functional
 
 # run main command-line tool
-run: | $(VENV)/bin/python
+run: | $(MAIN_CLI_PATH)
 	@$(MAIN_CLI_PATH) --help
 
 # Pushes release of this package to pypi
@@ -68,7 +70,7 @@ clean:
 
 # Convenience target to format code with black with PEP8's default
 # 80 character limit per line
-black: $(VENV)/bin/black
+black: | $(VENV)/bin/black
 	@$(VENV)/bin/black -l 80 $(PACKAGE_PATH) tests
 
 ##############################################################
@@ -77,7 +79,7 @@ black: $(VENV)/bin/black
 ##############################################################
 
 # creates virtual env if necessary and installs pip and setuptools
-$(VENV): $(REQUIREMENTS_PATH)  # creates $(VENV) folder if does not exist
+$(VENV): | $(REQUIREMENTS_PATH)  # creates $(VENV) folder if does not exist
 	echo "Creating virtualenv in $(VENV_ROOT)" && python3 -mvenv $(VENV)
 
 # installs pip and setuptools in their latest version, creates virtualenv if necessary
@@ -92,8 +94,9 @@ $(VENV)/bin/black: | $(VENV)/bin/pip
 	$(VENV)/bin/pip install -U black
 
 # installs this package in "edit" mode after ensuring its requirements are installed
-$(MAIN_CLI_PATH): | $(VENV) $(VENV)/bin/pip $(VENV)/bin/python $(REQUIREMENTS_PATH)
-	$(VENV)/bin/pip install --force-reinstall -r $(REQUIREMENTS_PATH)
+
+$(VENV)/bin/nosetests $(MAIN_CLI_PATH): | $(VENV) $(VENV)/bin/pip $(VENV)/bin/python $(REQUIREMENTS_PATH)
+	$(VENV)/bin/pip install -r $(REQUIREMENTS_PATH)
 	$(VENV)/bin/pip install -e .
 
 # ensure that REQUIREMENTS_PATH exists
@@ -124,6 +127,4 @@ $(REQUIREMENTS_PATH):
 	run \
 	tests \
 	unit \
-	functional \
-	tdd-functional \
-	tdd-unit
+	functional
