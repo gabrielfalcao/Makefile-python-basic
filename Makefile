@@ -66,7 +66,7 @@ release: tests build-release push-release
 
 # Convenience target to delete the virtualenv
 clean:
-	@rm -rf .venv
+	@rm -rf $(VENV)
 
 # Convenience target to format code with black with PEP8's default
 # 80 character limit per line
