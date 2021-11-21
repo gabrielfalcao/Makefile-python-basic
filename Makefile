@@ -16,8 +16,12 @@ export VENV		?= $(VENV_ROOT)
 #                real paths as Makefile expects)
 ######################################################################
 
-# default target when running `make` without arguments
-all: | $(MAIN_CLI_PATH)
+
+
+all: | $(MAIN_CLI_PATH)  # default target when running `make` without arguments
+
+help:
+	@egrep -h '^[^:]+:\s#\s' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?# "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 # creates virtualenv
 venv: | $(VENV)
@@ -56,11 +60,12 @@ push-release:  # pushes distribution tarballs of the current version
 # Prepares release of this package prior to pushing to pypi
 build-release:
 	rm -rf ./dist  # remove local packages
+	$(VENV)/bin/python setup.py build sdist
 	$(VENV)/bin/twine check dist/*.tar.gz
 	$(VENV)/bin/python setup.py build sdist
 
 # Convenience target that runs all tests then builds and pushes a release to pypi
-release: tests build-release push-release
+release: tests
 	$(MAKE) build-release
 	$(MAKE) push-release
 
@@ -128,3 +133,5 @@ $(REQUIREMENTS_PATH):
 	tests \
 	unit \
 	functional
+
+.DEFAULT_GOAL	:= help
