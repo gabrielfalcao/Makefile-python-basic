@@ -5,7 +5,8 @@ Tired of switching between python development tools such as pipenv and
 poetry I decided to stick to Makefile because it is available by
 default in Linux and OSX.
 
-Rationale:
+Rationale
+---------
 
 - Makefile is available in most unix systems - ships with OSX and most Linuxes.
 - Virtualenv is automatically created on demand via Makefile rules.
