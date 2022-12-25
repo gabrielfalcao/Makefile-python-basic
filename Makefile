@@ -134,4 +134,10 @@ $(REQUIREMENTS_PATH):
 	unit \
 	functional
 
+release: test
+	@pandoc -o readme.rst README.md
+	@./.release
+	@python3 setup.py register
+	@python3 setup.py sdist upload
+
 .DEFAULT_GOAL	:= help
