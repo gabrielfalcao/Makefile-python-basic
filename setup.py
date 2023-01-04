@@ -6,10 +6,10 @@ import os
 from setuptools import setup, find_packages
 
 
-PACKAGE_NAME = "your-package-name"  # used by "pip install ..."
-MODULE_NAME = "yourpackagename"  # used by "import ..."
-AUTHOR = "Your Name"
-AUTHOR_EMAIL = "youremail@example.com"
+PACKAGE_NAME = "{{ cookiecutter.project_slug }}"  # used by "pip install ..."
+MODULE_NAME = "{{ cookiecutter.package_name }}"  # used by "import ..."
+AUTHOR = "{{ cookiecutter.author_name }}"
+AUTHOR_EMAIL = "{{ cookiecutter.author_email }}"
 
 
 def local_file(*f):
@@ -40,7 +40,7 @@ def read_version():
 setup(
     name=PACKAGE_NAME,  # used by pip install ...
     version=read_version(),
-    description="some tool",
+    description="{{ cookiecutter.project_short_description }}",
     long_description=local_file("README.rst"),
     entry_points={"console_scripts": [f"{PACKAGE_NAME} = {MODULE_NAME}.cli:main"]},
     packages=find_packages(exclude=["*tests*"]),

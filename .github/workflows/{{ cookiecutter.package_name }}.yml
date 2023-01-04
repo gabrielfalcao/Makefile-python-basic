@@ -1,0 +1,35 @@
+name: {{ cookiecutter.project_name }} Tests
+on: [push, pull_request]
+
+jobs:
+  python:
+    name: "Python"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python:
+          - 3.7.15
+          - 3.9.14
+          - 3.8.13
+          - 3.10.7
+          - 3.11.0
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install python version
+      uses: gabrielfalcao/pyenv-action@v11
+      with:
+        default: "${{ matrix.python }}"
+        command: pip install -U pip setuptools
+
+    - name: Install dependencies
+      run: pip install -r development.txt
+
+    - name: Install sure
+      run: pip install -e .
+
+    - name: Run tests with nose
+      run: nosetests --verbosity 2
+
+    - name: Test with pytest
+      run: pytest -vv

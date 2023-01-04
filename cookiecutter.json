@@ -1,0 +1,21 @@
+
+{
+  "full_name": "Gabriel Falcão Gonçalves de Moura",
+  "email": "gabriel@nacaolivre.org",
+  "github_username": "gabrielfalcao",
+  "project_name": "Python Project powered by Makefile",
+  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "package_name": "{{ cookiecutter.project_slug.lower().replace('-', '_') }}",
+  "project_short_description": "Python Project with workflow managed a Makefile to automatically ensure that a virtualenv exists, all dependencies are installed, unit and functional tests can be executed exist separatly or simultaneously.",
+  "pypi_username": "{{ cookiecutter.github_username }}",
+  "minimal_python_version": "3.7.15",
+  "default_python_version": "3.8.13",
+  "maximum_python_version": "3.11.0",
+  "version": "0.0.1",
+  "use_pytest": "y",
+  "use_black": "y",
+  "use_pypi_deployment_with_travis": "n",
+  "command_line_interface": ["Click", "Argparse", "No command-line interface"],
+  "create_author_file": "y",
+  "open_source_license": ["MIT license", "BSD license", "ISC license", "Apache Software License 2.0", "GNU General Public License v3", "Not open source"]
+}

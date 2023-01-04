@@ -2,8 +2,8 @@ MAKEFILE_PATH		:= $(realpath $(firstword $(MAKEFILE_LIST)))
 GIT_ROOT		:= $(shell dirname $(MAKEFILE_PATH))
 VENV_ROOT		:= $(GIT_ROOT)/.venv
 
-PACKAGE_NAME		:= yourpackagename
-MAIN_CLI_NAME		:= your-package-name
+PACKAGE_NAME		:= {{ cookiecutter.package_name }}
+MAIN_CLI_NAME		:= {{ cookiecutter.project_slug }}
 REQUIREMENTS_FILE	:= development.txt
 
 PACKAGE_PATH		:= $(GIT_ROOT)/$(PACKAGE_NAME)
