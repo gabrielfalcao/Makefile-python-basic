@@ -85,7 +85,7 @@ black: | $(VENV)/bin/black
 
 # creates virtual env if necessary and installs pip and setuptools
 $(VENV): | $(REQUIREMENTS_PATH)  # creates $(VENV) folder if does not exist
-	echo "Creating virtualenv in $(VENV_ROOT)" && python3 -mvenv $(VENV)
+	@echo "Creating virtualenv in $(VENV_ROOT)" && python3 -mvenv $(VENV)
 
 # installs pip and setuptools in their latest version, creates virtualenv if necessary
 $(VENV)/bin/python $(VENV)/bin/pip: # installs latest pip

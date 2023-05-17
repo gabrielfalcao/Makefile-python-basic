@@ -8,8 +8,8 @@ from setuptools import setup, find_packages
 
 PACKAGE_NAME = "{{ cookiecutter.project_slug }}"  # used by "pip install ..."
 MODULE_NAME = "{{ cookiecutter.package_name }}"  # used by "import ..."
-AUTHOR = "{{ cookiecutter.author_name }}"
-AUTHOR_EMAIL = "{{ cookiecutter.author_email }}"
+AUTHOR = "{{ cookiecutter.full_name }}"
+AUTHOR_EMAIL = "{{ cookiecutter.email }}"
 
 
 def local_file(*f):
