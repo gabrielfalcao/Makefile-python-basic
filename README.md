@@ -2,5 +2,5 @@
 
 
 ```bash
-cookiecutter -f Makefile-python-basic -o new-project
+cookiecutter -f Makefile-python-basic
 ```
